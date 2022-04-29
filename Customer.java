@@ -27,4 +27,8 @@ public class Customer {
 		this.city = city;
 		this.state = state;
 	}
+	public void updateCustomer(String first_name, String last_name, int dob, int phone, String street, String address_number, int zip_code, String city, String state)
+	{
+		
+	}
 }
