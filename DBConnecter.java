@@ -4,13 +4,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-
+//connect to database
+//make sureto chaangethe database url according to ur credential.
 public class DBConnecter
 {
     private static final String DATABASE_DRIVER = "postgresql-42.3.4.jar";
     private static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/BCDM";
     private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "Zz12345!";
+    private static final String PASSWORD = "12345";
     private static Connection connection=null;
     
     public static Connection getConnection()
