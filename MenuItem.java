@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Date;
 
 public class MenuItem {
 	private int itemID;
@@ -23,8 +24,13 @@ public class MenuItem {
 			System.out.println(ex);
 		}
 	}
-	public void updateCustomer(int itemID, String name, double price)
+	public void updateMenuItem(int itemID, String name, double price)
 	{
+		if (this.price != price)
+		{
+			// create a new historical price
+			//newHistoricalPrice(double price, Date d);
+		}
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
