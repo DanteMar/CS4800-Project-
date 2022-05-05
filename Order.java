@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Order {
 	private Date date;
@@ -27,19 +28,19 @@ public class Order {
 	public void setTime(Time t) {
 		time=t;
 	}
-	public Date getCustomer() {
+	public Customer getCustomer() {
 		return customer;
 	}
 	public void setCustomer(Customer c) {
 		customer=c;
 	}
-	public Date getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 	public void setTotalPrice(double tp) {
 		totalPrice=tp;
 	}
-	public Date getStatus() {
+	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String s) {
