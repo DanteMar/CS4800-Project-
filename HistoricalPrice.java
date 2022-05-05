@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.util.Date;
 
 public class HistoricalPrice {
 	private int priceID;
