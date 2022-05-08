@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 
 public class Food_Order {
@@ -16,12 +15,30 @@ public class Food_Order {
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("INSERT INTO foodorder (menuitemID, orderID, quantity) VALUES (?, ?, ?)");
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO menuitem_order (menuitemid, orderid, quantity) VALUES (?, ?, ?)");
 
 			stmt.setInt(1, menuitemID);
 			stmt.setInt(2, orderID);
 			stmt.setInt(3, quantity);
 			
+			stmt.executeUpdate();
+			
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex);
+		}
+	}
+	public void deleteFoodOrder(int menuitemID, int orderID)
+	{
+		try
+		{
+			// all database values will change once database is setup
+			Connection connection = LoginDataAccess.verifyCredentials();
+					
+			PreparedStatement stmt = connection.prepareStatement("DELETE FROM menuitem_order WHERE menuitemid = ? AND orderid = ?");
+			stmt.setInt(1, menuitemID);
+			stmt.setInt(2, orderID);
 			stmt.executeUpdate();
 			
 		}
