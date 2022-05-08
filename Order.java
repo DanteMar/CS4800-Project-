@@ -71,7 +71,7 @@ public class Order {
 			System.out.println(e);
 		}
 	}
-	public double calculatePrice(int orderID)
+	public void calculatePrice(int orderID)
 	{
 		double priceSum = 0;
 		int quant = 0;
@@ -88,22 +88,25 @@ public class Order {
 			{
 				quant = rs.getInt("quantity");
 				itemID = rs.getInt("menuitemid");
-				
 				PreparedStatement stmt2 = connection.prepareStatement("SELECT price from menuitem WHERE menuitemid = ?");
-				stmt.setInt(1, itemID);
+				stmt2.setInt(1, itemID);
 				ResultSet rs2 = stmt2.executeQuery();
-				while (rs.next()) 
+				while (rs2.next()) 
 				{
 					priceSum = priceSum + rs2.getDouble("price") * quant;
 				}
 			}
 			total = priceSum;
+			
+			PreparedStatement stmt3 = connection.prepareStatement("update aorder set total = ? where orderid = ?");
+			stmt3.setDouble(1, total);
+			stmt3.setInt(2, orderID);
+			stmt3.executeUpdate();
+			System.out.println(total);
 		}
 		catch (Exception e) {
 			System.out.println(e);
 		}
-		
-		return 0.0;
 	}
 	public double applyDiscount(int broncoID) //select query of this order's customer to get discount amount and multiply with the price
 	{
