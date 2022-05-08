@@ -20,11 +20,12 @@ public class Order {
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("INSERT INTO aorder (odate, otime, ocustomerid) VALUES (?, ?, ?)");
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO aorder (odate, otime, broncoid, total) VALUES (?, ?, ?, ?)");
 
 			stmt.setDate(1, date);
 			stmt.setTime(2, time);
 			stmt.setDouble(3, broncoID);
+			stmt.setDouble(4, 0.0);
 			
 			stmt.executeUpdate();
 		}
@@ -43,7 +44,7 @@ public class Order {
 			//Generate appropriate query
 			// all database values will change once database is setup
 			
-			PreparedStatement stmt = connection.prepareStatement("update aorder set odate = ?, otime = ?, ocustomerid = ? where orderid = ?");
+			PreparedStatement stmt = connection.prepareStatement("update aorder set odate = ?, otime = ?, broncoid = ? where orderid = ?");
 			stmt.setDate(1, date);
 			stmt.setTime(2, time);
 			stmt.setInt(3, broncoID);
@@ -111,7 +112,7 @@ public class Order {
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
 			// all database values will change once database is setup
-			PreparedStatement stmt = connection.prepareStatement("SELECT discount from customer WHERE customerID = ?");
+			PreparedStatement stmt = connection.prepareStatement("SELECT discount from customer WHERE broncoid = ?");
 			stmt.setInt(1, broncoID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) 
