@@ -23,7 +23,7 @@ public class Student extends Customer{
 			//Generate appropriate query
 			// all database values will change once database is setup
 			
-			PreparedStatement stmt = connection.prepareStatement("update customer set enterdate =, graddate = ?, major = ?, minor = ? where customerid = ?");
+			PreparedStatement stmt = connection.prepareStatement("update customer set enterdate = ?, graddate = ?, major = ?, minor = ? where customerid = ?");
 			stmt.setDate(1, EnterDate);
 			stmt.setDate(2, GradDate);
 			stmt.setString(3, major);
