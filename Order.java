@@ -98,22 +98,27 @@ public class Order {
 			}
 			total = priceSum;
 			
-			PreparedStatement stmt3 = connection.prepareStatement("update aorder set total = ? where orderid = ?");
-			stmt3.setDouble(1, total);
-			stmt3.setInt(2, orderID);
-			stmt3.executeUpdate();
+			setTotal(total, orderID);
 			System.out.println(total);
 		}
 		catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	public double applyDiscount(int broncoID) //select query of this order's customer to get discount amount and multiply with the price
+	public double applyDiscount(int orderID) //select query of this order's customer to get discount amount and multiply with the price
 	{
 		double discount = 0;
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
+			
+			
+			PreparedStatement stmt2 = connection.prepareStatement("SELECT total, broncoid from aorder WHERE orderid = ?");
+			stmt2.setInt(1, orderID);
+			ResultSet rs2 = stmt2.executeQuery();
+			rs2.next();
+			total = rs2.getDouble("total");
+			broncoID = rs2.getInt("broncoid");
 			// all database values will change once database is setup
 			PreparedStatement stmt = connection.prepareStatement("SELECT discount from customer WHERE broncoid = ?");
 			stmt.setInt(1, broncoID);
@@ -123,6 +128,8 @@ public class Order {
 				discount = rs.getDouble("discount");
 			}
 			total = total - total * discount;
+			System.out.println(total); 
+			setTotal(total, orderID);
 		}
 		catch (Exception e) {
 			System.out.println(e);
@@ -130,6 +137,20 @@ public class Order {
 		
 		
 		return 0.0;
+	}
+	public void setTotal(double total, int orderID)
+	{
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("update aorder set total = ? where orderid = ?");
+			stmt.setDouble(1, total);
+			stmt.setInt(2, orderID);
+			stmt.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	public Date getDate() {
 		return date;
