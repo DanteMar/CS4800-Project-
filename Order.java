@@ -10,21 +10,21 @@ public class Order {
 	private Date date;
 	private Time time;
 	private double total;
-	private int customerID;
+	private int broncoID;
 	
 	public Order () 
 	{
 	}
-	public void newOrder(Date date, Time time, int customerID)
+	public void newOrder(Date date, Time time, int broncoID)
 	{
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("INSERT INTO order (date, time, customerID) VALUES (?, ?, ?)");
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO aorder (odate, otime, ocustomerid) VALUES (?, ?, ?)");
 
 			stmt.setDate(1, date);
 			stmt.setTime(2, time);
-			stmt.setDouble(3, customerID);
+			stmt.setDouble(3, broncoID);
 			
 			stmt.executeUpdate();
 		}
@@ -33,7 +33,7 @@ public class Order {
 			System.out.println(ex);
 		}
 	}
-	public void updateOrder(int orderID, Date date, Time time, int customerID)
+	public void updateOrder(int orderID, Date date, Time time, int broncoID)
 	{
 		try
 		{
@@ -43,10 +43,10 @@ public class Order {
 			//Generate appropriate query
 			// all database values will change once database is setup
 			
-			PreparedStatement stmt = connection.prepareStatement("update order set date = ?, time = ?, customerid = ? where orderid = ?");
+			PreparedStatement stmt = connection.prepareStatement("update aorder set odate = ?, otime = ?, ocustomerid = ? where orderid = ?");
 			stmt.setDate(1, date);
 			stmt.setTime(2, time);
-			stmt.setInt(3, customerID);
+			stmt.setInt(3, broncoID);
 			stmt.setInt(4, orderID);
 			
 			stmt.executeUpdate();
@@ -62,7 +62,7 @@ public class Order {
 		{
 			// all database values will change once database is setup
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("DELETE FROM order WHERE orderIDInput = ?");
+			PreparedStatement stmt = connection.prepareStatement("DELETE FROM aorder WHERE orderid = ?");
 			stmt.setInt(1, orderIDInput);
 			stmt.executeUpdate();
 		}
@@ -70,7 +70,7 @@ public class Order {
 			System.out.println(e);
 		}
 	}
-	public double calculatePrice()
+	public double calculatePrice(int orderID)
 	{
 		double priceSum = 0;
 		int quant = 0;
@@ -80,15 +80,15 @@ public class Order {
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
 			// all database values will change once database is setup
-			PreparedStatement stmt = connection.prepareStatement("SELECT quantity, menuitemID from foodorder WHERE  orderID = ?");
+			PreparedStatement stmt = connection.prepareStatement("SELECT quantity, menuitemid from menuitem_order WHERE orderid = ?");
 			stmt.setInt(1, orderID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) 
 			{
 				quant = rs.getInt("quantity");
-				itemID = rs.getInt("menuitemID");
+				itemID = rs.getInt("menuitemid");
 				
-				PreparedStatement stmt2 = connection.prepareStatement("SELECT price from menuitem WHERE menuitemID = ?");
+				PreparedStatement stmt2 = connection.prepareStatement("SELECT price from menuitem WHERE menuitemid = ?");
 				stmt.setInt(1, itemID);
 				ResultSet rs2 = stmt2.executeQuery();
 				while (rs.next()) 
@@ -104,7 +104,7 @@ public class Order {
 		
 		return 0.0;
 	}
-	public double applyDiscount() //select query of this order's customer to get discount amount and multiply with the price
+	public double applyDiscount(int broncoID) //select query of this order's customer to get discount amount and multiply with the price
 	{
 		double discount = 0;
 		try
@@ -112,7 +112,7 @@ public class Order {
 			Connection connection = LoginDataAccess.verifyCredentials();
 			// all database values will change once database is setup
 			PreparedStatement stmt = connection.prepareStatement("SELECT discount from customer WHERE customerID = ?");
-			stmt.setInt(1, customerID);
+			stmt.setInt(1, broncoID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) 
 			{
@@ -140,10 +140,10 @@ public class Order {
 		time=t;
 	}
 	public int getCustomer() {
-		return customerID;
+		return broncoID;
 	}
-	public void setCustomerID(int c) {
-		customerID = c;
+	public void setbroncoID(int c) {
+		broncoID = c;
 	}
 	public double getTotalPrice() {
 		return total;
