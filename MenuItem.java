@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MenuItem {
@@ -11,13 +12,12 @@ public class MenuItem {
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
-			// create the java statement
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO menuitem (name, price) VALUES (?, ?)");
+
+			stmt.setString(1, name);
+			stmt.setDouble(2, price);
 			
-			//Generate appropriate query
-			String query = "INSERT INTO `menuItem` (`name`, `price`)";
-			
-			// execute the query
-			connection.createStatement().executeUpdate(query);
+			stmt.executeUpdate();
 		}
 		catch (Exception ex)
 		{
@@ -29,7 +29,9 @@ public class MenuItem {
 		if (this.price != price)
 		{
 			// create a new historical price
-			//newHistoricalPrice(double price, Date d);
+			HistoricalPrice hprice = new HistoricalPrice();
+			java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+			hprice.newHistoricalPrice(this.price, date);
 		}
 		try
 		{
@@ -38,23 +40,28 @@ public class MenuItem {
 			
 			//Generate appropriate query
 			// all database values will change once database is setup
-			connection.createStatement().executeUpdate("UPDATE `menuItem` SET `name` = '" + name + "' WHERE `itemID` = " + itemID);	
-			connection.createStatement().executeUpdate("UPDATE `menuItem` SET `price` = '" + price + "' WHERE `itemID` = " + itemID);
+			
+			PreparedStatement stmt = connection.prepareStatement("update menuitem set name = ?, price = ? where menuitemid = ?");
+			stmt.setString(1, name);
+			stmt.setDouble(2, price);
+			stmt.setInt(3, itemID);
+			
+			stmt.executeUpdate();
 		}
 		catch (Exception ex)
 		{
 			System.out.println(ex);
 		}
 	}
-	public static void deleteMenuItem(int menuItemIDInput)
+	public void deleteMenuItem(int menuItemIDInput)
 	{
 		try
 		{
+			// all database values will change once database is setup
 			Connection connection = LoginDataAccess.verifyCredentials();
-			String queryDeleteTransaction = "DELETE FROM menuItem WHERE `menuItem`.menuItemID = "
-					+ menuItemIDInput;
-			PreparedStatement delete = connection.prepareStatement(queryDeleteTransaction);
-			delete.executeUpdate();
+			PreparedStatement stmt = connection.prepareStatement("DELETE FROM menuitem WHERE menuItemID = ?");
+			stmt.setInt(1, menuItemIDInput);
+			stmt.executeUpdate();
 		}
 		catch (Exception e) {
 			System.out.println(e);
