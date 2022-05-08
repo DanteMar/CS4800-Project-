@@ -1,0 +1,70 @@
+create table menuitem
+(
+	menuitemid int,
+	foodName varchar(50),
+	price decimal(10,2),
+	Primary key(menuitemid)
+);
+create table HistoricalPrice
+(
+	priceid int,
+	menuitemid int,
+	Hdate Date,
+	Primary Key(priceid),
+	Foreign key(menuitemid) references menuitem(menuitemid)
+);
+create table Customer
+(
+	firstName varchar(50),
+	lastName varchar(50),
+	cDate Date,
+	phoneNum integer,
+	broncoID integer,
+	eDate Date,
+	gDate Date,
+	minor varchar(50),
+	major varchar(50),
+	department varchar(50),
+	office varchar(50),
+	research varchar(50),
+	Primary key(broncoID)
+);
+
+Create table Address
+(
+	addNum integer,
+	zipCode integer,
+	city varchar(50) ,
+	Astate varchar(50),
+	street varchar(100),
+	broncoID integer,
+	Primary key(broncoID),
+	Foreign key(broncoID) references Customer(broncoID)
+);
+
+create table Aorder
+(
+	Odate Date,
+	OTime Time,
+	status varchar(20),
+	OrderID integer,
+	Primary key(OrderID)
+);
+create table Discount
+(
+	orderID integer,
+	broncoID integer,
+	discountPt boolean,
+	primary key(orderID, broncoID),
+	Foreign key(orderID) references Aorder(OrderID),
+	Foreign key(broncoID) references Customer(broncoID)
+);
+create table menuitem_order
+(
+	Quantity integer,
+	menuitemid integer,
+	orderid integer,
+	Primary key(menuitemid, orderid),
+	Foreign key(orderid) references Aorder(OrderID),
+	Foreign key(menuitemid) references menuitem(menuitemid)
+);
