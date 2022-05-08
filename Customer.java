@@ -26,14 +26,14 @@ public class Customer {
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("INSERT INTO customer (broncoid, firstname, lastname, cdate, phonenum) VALUES (?, ?, ?, ?, ?)");
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO customer (broncoid, firstname, lastname, dob, phonenum, discount) VALUES (?, ?, ?, ?, ?, ?)");
 
 			stmt.setInt(1, broncoID);
 			stmt.setString(2, first_name);
 			stmt.setString(3, last_name);
 			stmt.setDate(4, dob);
 			stmt.setInt(5, phone);
-			
+			stmt.setDouble(6, discount);
 			stmt.executeUpdate();
 			
 		}
@@ -52,7 +52,7 @@ public class Customer {
 			//Generate appropriate query
 			// all database values will change once database is setup
 			
-			PreparedStatement stmt = connection.prepareStatement("update customer set firstname = ?, lastname = ?, cdate = ?, phonenum = ? where broncoid = ?");
+			PreparedStatement stmt = connection.prepareStatement("update customer set firstname = ?, lastname = ?, dob = ?, phonenum = ? where broncoid = ?");
 			stmt.setString(1, first_name);
 			stmt.setString(2, last_name);
 			stmt.setDate(3, dob);
