@@ -1,5 +1,6 @@
 import java.sql.Connection;
-import java.util.Date;
+import java.sql.PreparedStatement;
+import java.sql.Date;
 
 public class HistoricalPrice {
 	private int priceID;
@@ -11,13 +12,12 @@ public class HistoricalPrice {
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
-			// create the java statement
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO historicalprice (price, date) VALUES (?, ?)");
+
+			stmt.setDouble(1, price);
+			stmt.setDate(2, d);
 			
-			//Generate appropriate query
-			String query = "INSERT INTO `historicalPrice` (`price`, `d`)";
-			
-			// execute the query
-			connection.createStatement().executeUpdate(query);
+			stmt.executeUpdate();
 		}
 		catch (Exception ex)
 		{
