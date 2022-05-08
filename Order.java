@@ -15,8 +15,9 @@ public class Order {
 	public Order () 
 	{
 	}
-	public void newOrder(Date date, Time time, int broncoID)
+	public int newOrder(Date date, Time time, int broncoID) //returns the orderID of the new order
 	{
+		int id = -1;
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
@@ -26,13 +27,22 @@ public class Order {
 			stmt.setTime(2, time);
 			stmt.setDouble(3, broncoID);
 			stmt.setDouble(4, 0.0);
-			
 			stmt.executeUpdate();
+			
+			//finds the id of the new order
+			PreparedStatement stmt2 = connection.prepareStatement("SELECT orderid FROM aorder WHERE odate = ? AND otime = ? AND broncoid = ?");
+			stmt2.setDate(1, date);
+			stmt2.setTime(2, time);
+			stmt2.setInt(3, broncoID);
+			ResultSet rs = stmt2.executeQuery();
+			rs.next();
+			id = rs.getInt("orderid");
 		}
 		catch (Exception ex)
 		{
 			System.out.println(ex);
 		}
+		return id;
 	}
 	public void updateOrder(int orderID, Date date, Time time, int broncoID)
 	{
@@ -98,8 +108,9 @@ public class Order {
 			}
 			total = priceSum;
 			
-			setTotal(total, orderID);
 			System.out.println(total);
+			setTotal(total, orderID);
+			
 		}
 		catch (Exception e) {
 			System.out.println(e);
@@ -164,13 +175,13 @@ public class Order {
 	public void setTime(Time t) {
 		time=t;
 	}
-	public int getCustomer() {
+	public int getBroncoID() {
 		return broncoID;
 	}
 	public void setbroncoID(int c) {
 		broncoID = c;
 	}
-	public double getTotalPrice() {
+	public double getTotal() {
 		return total;
 	}
 	public String getStatus() {
@@ -178,5 +189,81 @@ public class Order {
 	}
 	public void setStatus(String s) {
 		status=s;
+	}
+	
+	public Date getDate(int orderID) {
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("SELECT odate from aorder WHERE orderid = ?");
+			stmt.setInt(1, orderID);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			date = rs.getDate("odate");
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		return date;
+	}
+	public Time getTime(int orderID) {
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("SELECT otime from aorder WHERE orderid = ?");
+			stmt.setInt(1, orderID);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			time = rs.getTime("otime");
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		return time;
+	}
+	public int getBroncoID(int orderID) {
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("SELECT broncoid from aorder WHERE orderid = ?");
+			stmt.setInt(1, orderID);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			broncoID = rs.getInt("broncoid");
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		return broncoID;
+	}
+	public double getTotal(int orderID) {
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("SELECT total from aorder WHERE orderid = ?");
+			stmt.setInt(1, orderID);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			total = rs.getDouble("total");
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		return total;
+	}
+	public String getStatus(int orderID) {
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("SELECT status from aorder WHERE orderid = ?");
+			stmt.setInt(1, orderID);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			status = rs.getString("status");
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		return status;
 	}
 }
