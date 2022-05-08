@@ -13,7 +13,7 @@ public class Student extends Customer{
 	{
 		
 	}
-	public void updateStudent(int customerID, Date EnterDate, Date GradDate, String major, String minor)
+	public void updateStudent(int broncoID, Date EnterDate, Date GradDate, String major, String minor)
 	{
 		try
 		{
@@ -23,12 +23,12 @@ public class Student extends Customer{
 			//Generate appropriate query
 			// all database values will change once database is setup
 			
-			PreparedStatement stmt = connection.prepareStatement("update customer set enterdate = ?, graddate = ?, major = ?, minor = ? where customerid = ?");
+			PreparedStatement stmt = connection.prepareStatement("update customer set edate = ?, gdate = ?, major = ?, minor = ? where broncoid = ?");
 			stmt.setDate(1, EnterDate);
 			stmt.setDate(2, GradDate);
 			stmt.setString(3, major);
 			stmt.setString(4, minor);
-			stmt.setInt(5, customerID);
+			stmt.setInt(5, broncoID);
 			
 			stmt.executeUpdate();
 		}
