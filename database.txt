@@ -1,70 +1,112 @@
-create table menuitem
-(
-	menuitemid int,
-	foodName varchar(50),
-	price decimal(10,2),
-	Primary key(menuitemid)
-);
-create table HistoricalPrice
-(
-	priceid int,
-	menuitemid int,
-	Hdate Date,
-	Primary Key(priceid),
-	Foreign key(menuitemid) references menuitem(menuitemid)
-);
-create table Customer
-(
-	firstName varchar(50),
-	lastName varchar(50),
-	cDate Date,
-	phoneNum integer,
-	broncoID integer,
-	eDate Date,
-	gDate Date,
-	minor varchar(50),
-	major varchar(50),
-	department varchar(50),
-	office varchar(50),
-	research varchar(50),
-	Primary key(broncoID)
+
+CREATE SEQUENCE public.menuitem_menuitemid_seq;
+
+CREATE TABLE public.menuitem (
+                menuitemid INTEGER NOT NULL DEFAULT nextval('public.menuitem_menuitemid_seq'),
+                foodname VARCHAR NOT NULL,
+                price DOUBLE PRECISION NOT NULL,
+                CONSTRAINT menuitem_pk PRIMARY KEY (menuitemid)
 );
 
-Create table Address
-(
-	addNum integer,
-	zipCode integer,
-	city varchar(50) ,
-	Astate varchar(50),
-	street varchar(100),
-	broncoID integer,
-	Primary key(broncoID),
-	Foreign key(broncoID) references Customer(broncoID)
+
+ALTER SEQUENCE public.menuitem_menuitemid_seq OWNED BY public.menuitem.menuitemid;
+
+CREATE SEQUENCE public.historicalprice_priceid_seq;
+
+CREATE TABLE public.historicalprice (
+                priceid INTEGER NOT NULL DEFAULT nextval('public.historicalprice_priceid_seq'),
+                menuitemid INTEGER NOT NULL,
+                hdate DATE NOT NULL,
+                hprice DOUBLE PRECISION NOT NULL,
+                CONSTRAINT historicalprice_pk PRIMARY KEY (priceid)
 );
 
-create table Aorder
-(
-	Odate Date,
-	OTime Time,
-	status varchar(20),
-	OrderID integer,
-	Primary key(OrderID)
+
+ALTER SEQUENCE public.historicalprice_priceid_seq OWNED BY public.historicalprice.priceid;
+
+CREATE TABLE public.customer (
+                broncoid INTEGER NOT NULL,
+                firstname VARCHAR NOT NULL,
+                lastname VARCHAR NOT NULL,
+                dob DATE NOT NULL,
+                phonenum INTEGER NOT NULL,
+                discount DOUBLE PRECISION NOT NULL,
+                gdate DATE,
+                edate DATE,
+                major VARCHAR,
+                minor VARCHAR,
+                department VARCHAR,
+                office VARCHAR,
+                research VARCHAR,
+                CONSTRAINT customer_pk PRIMARY KEY (broncoid)
 );
-create table Discount
-(
-	orderID integer,
-	broncoID integer,
-	discountPt boolean,
-	primary key(orderID, broncoID),
-	Foreign key(orderID) references Aorder(OrderID),
-	Foreign key(broncoID) references Customer(broncoID)
+
+
+CREATE SEQUENCE public.aorder_orderid_seq;
+
+CREATE TABLE public.aorder (
+                orderid INTEGER NOT NULL DEFAULT nextval('public.aorder_orderid_seq'),
+                odate DATE NOT NULL,
+                otime TIME NOT NULL,
+                status VARCHAR,
+                total DOUBLE PRECISION NOT NULL,
+                broncoid INTEGER NOT NULL,
+                CONSTRAINT aorder_pk PRIMARY KEY (orderid)
 );
-create table menuitem_order
-(
-	Quantity integer,
-	menuitemid integer,
-	orderid integer,
-	Primary key(menuitemid, orderid),
-	Foreign key(orderid) references Aorder(OrderID),
-	Foreign key(menuitemid) references menuitem(menuitemid)
+
+
+ALTER SEQUENCE public.aorder_orderid_seq OWNED BY public.aorder.orderid;
+
+CREATE TABLE public.menuitem_order (
+                menuitemid INTEGER NOT NULL,
+                orderid INTEGER NOT NULL,
+                quantity INTEGER NOT NULL,
+                CONSTRAINT menuitem_order_pk PRIMARY KEY (menuitemid, orderid)
 );
+
+
+CREATE TABLE public.address (
+                broncoid INTEGER NOT NULL,
+                city VARCHAR NOT NULL,
+                addnum INTEGER NOT NULL,
+                zipcode INTEGER NOT NULL,
+                state VARCHAR NOT NULL,
+                street VARCHAR NOT NULL,
+                CONSTRAINT address_pk PRIMARY KEY (broncoid)
+);
+
+
+ALTER TABLE public.menuitem_order ADD CONSTRAINT menuitem_menuitem_order_fk
+FOREIGN KEY (menuitemid)
+REFERENCES public.menuitem (menuitemid)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.historicalprice ADD CONSTRAINT menuitem_historicalprice_fk
+FOREIGN KEY (menuitemid)
+REFERENCES public.menuitem (menuitemid)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.address ADD CONSTRAINT customer_address_fk
+FOREIGN KEY (broncoid)
+REFERENCES public.customer (broncoid)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.aorder ADD CONSTRAINT customer_aorder_fk
+FOREIGN KEY (broncoid)
+REFERENCES public.customer (broncoid)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.menuitem_order ADD CONSTRAINT aorder_menuitem_order_fk
+FOREIGN KEY (orderid)
+REFERENCES public.aorder (orderid)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
