@@ -22,7 +22,7 @@ public class Professor extends Customer {
 			//Generate appropriate query
 			// all database values will change once database is setup
 			
-			PreparedStatement stmt = connection.prepareStatement("update customer set department =, office = ?, research = ? where customerid = ?");
+			PreparedStatement stmt = connection.prepareStatement("update customer set department = ?, office = ?, research = ? where customerid = ?");
 			stmt.setString(1, department);
 			stmt.setString(2, office);
 			stmt.setString(3, research);
