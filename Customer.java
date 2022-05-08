@@ -5,37 +5,34 @@ import java.sql.Connection;
 import java.sql.Date;
 
 public class Customer {
+	private int broncoID;
 	private String first_name;
 	private String last_name;
 	private Date dob;
 	private int phone;
-	private String street;
-	private int address_number;
-	private int zip_code;
-	private String city;
-	private String state;
+	//private String street;
+	//private int address_number;
+	//private int zip_code;
+	//private String city;
+	//private String state;
 	private double discount = 0;
 	
 	public Customer()
 	{
 	}
 	
-	public void newCustomer(String first_name, String last_name, Date dob, int phone, String street, int address_number, int zip_code, String city, String state)
+	public void newCustomer( int broncoID ,String first_name, String last_name, Date dob, int phone)
 	{
 		try
 		{
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("INSERT INTO customer (first_name, last_name, dob, phone, street, address_number, zip_code, city, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO customer (broncoid, firstname, lastname, cdate, phonenum) VALUES (?, ?, ?, ?, ?)");
 
-			stmt.setString(1, first_name);
-			stmt.setString(2, last_name);
-			stmt.setDate(3, dob);
-			stmt.setInt(4, phone);
-			stmt.setString(5, street);
-			stmt.setInt(6, address_number);
-			stmt.setInt(7, zip_code);
-			stmt.setString(8, city);
-			stmt.setString(9, state);
+			stmt.setInt(1, broncoID);
+			stmt.setString(2, first_name);
+			stmt.setString(3, last_name);
+			stmt.setDate(4, dob);
+			stmt.setInt(5, phone);
 			
 			stmt.executeUpdate();
 			
@@ -45,7 +42,7 @@ public class Customer {
 			System.out.println(ex);
 		}
 	}
-	public void updateCustomer(int customerID, String first_name, String last_name, Date dob, int phone, String street, int address_number, int zip_code, String city, String state)
+	public void updateCustomer(int broncoID, String first_name, String last_name, Date dob, int phone)
 	{
 		try
 		{
@@ -55,17 +52,12 @@ public class Customer {
 			//Generate appropriate query
 			// all database values will change once database is setup
 			
-			PreparedStatement stmt = connection.prepareStatement("update customer set first_name = ?, last_name = ?, dob = ?, phone = ?, street = ?, address_number = ?, zip_code = ?, city = ?, state = ? where customerid = ?");
+			PreparedStatement stmt = connection.prepareStatement("update customer set firstname = ?, lastname = ?, cdate = ?, phonenum = ? where broncoid = ?");
 			stmt.setString(1, first_name);
 			stmt.setString(2, last_name);
 			stmt.setDate(3, dob);
 			stmt.setInt(4, phone);
-			stmt.setString(5, street);
-			stmt.setInt(6, address_number);
-			stmt.setInt(7, zip_code);
-			stmt.setString(8, city);
-			stmt.setString(9, state);
-			stmt.setInt(10, customerID);
+			stmt.setInt(5, broncoID);
 			
 			stmt.executeUpdate();
 		}
@@ -74,14 +66,14 @@ public class Customer {
 			System.out.println(ex);
 		}
 	}
-	public void deleteCustomer(int customerIDInput)
+	public void deleteCustomer(int broncoIDInput)
 	{
 		try
 		{
 			// all database values will change once database is setup
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("DELETE FROM customer WHERE customerid = ?");
-			stmt.setInt(1, customerIDInput);
+			PreparedStatement stmt = connection.prepareStatement("DELETE FROM customer WHERE broncoID = ?");
+			stmt.setInt(1, broncoIDInput);
 			stmt.executeUpdate();
 		}
 		catch (Exception e) {
