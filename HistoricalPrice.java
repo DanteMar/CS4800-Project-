@@ -1,3 +1,4 @@
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Date;
@@ -11,6 +12,12 @@ public class HistoricalPrice {
 	HistoricalPrice()
 	{
 		
+	}
+	HistoricalPrice(double price, Date d, int menuitemID)
+	{
+		this.price = price;
+		this.d = d;
+		this.menuitemID = menuitemID;
 	}
 	public void newHistoricalPrice(double price, Date d, int menuitemid)
 	{
