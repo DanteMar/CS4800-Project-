@@ -1,3 +1,4 @@
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,8 +18,17 @@ public class Customer {
 	//private String state;
 	private double discount = 0;
 	
-	public Customer()
+	Customer()
 	{
+		
+	}
+	Customer(int broncoID, String fname, String lname, Date dob, int phone)
+	{
+		this.broncoID = broncoID;
+		first_name = fname;
+		last_name = lname;
+		this.dob = dob;
+		this.phone = phone;
 	}
 	
 	public void newCustomer( int broncoID ,String first_name, String last_name, Date dob, int phone)
@@ -79,5 +89,25 @@ public class Customer {
 		catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+	public int getBroncoID()
+	{
+		return broncoID;
+	}
+	public String getFirstName()
+	{
+		return first_name;
+	}
+	public String getLastName()
+	{
+		return last_name;
+	}
+	public Date getdob()
+	{
+		return dob;
+	}
+	public int phone()
+	{
+		return phone;
 	}
 }
