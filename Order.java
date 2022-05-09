@@ -1,3 +1,4 @@
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,14 @@ public class Order {
 	
 	public Order () 
 	{
+	}
+	public Order (String status, Date date, Time time, double total, int broncoID) 
+	{
+		this.status = status;
+		this.date = date;
+		this.time = time;
+		this.total = total;
+		this.broncoID = broncoID;
 	}
 	public int newOrder(Date date, Time time, int broncoID) //returns the orderID of the new order
 	{
