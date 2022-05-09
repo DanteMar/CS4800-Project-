@@ -1,4 +1,4 @@
-
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,6 +48,24 @@ public class RevReport {
         	System.out.println(ex);
             return 0.0;
         }
-    }   
+    }  
+    public static double getRevenue(int broncoID)    
+    {
+        try
+        {
+        	Connection connection = LoginDataAccess.verifyCredentials();
+        	PreparedStatement stmt = connection.prepareStatement(
+        	"select sum(total) as sum_price from aorder where broncoid = ?");
+        	stmt.setInt(1, broncoID);
+        	ResultSet rs = stmt.executeQuery();
+        	rs.next();
+            return rs.getDouble("sum_price");
+        }
+        catch (Exception ex)
+        {
+        	System.out.println(ex);
+            return 0.0;
+        }
+    }  
 
 }
