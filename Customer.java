@@ -106,7 +106,7 @@ public class Customer {
 	{
 		return dob;
 	}
-	public int phone()
+	public int getphone()
 	{
 		return phone;
 	}
