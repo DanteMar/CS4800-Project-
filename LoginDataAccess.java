@@ -11,7 +11,8 @@ public class LoginDataAccess {
 		final String USER = "postgres";
 
 		final String PWD = "1234"; //change for your local database
-
+		//you might need this
+		//Class.forName("org.postgresql.Driver");
 		try 
 		{   
 			Connection connection = DriverManager.getConnection(URL, USER, PWD);
