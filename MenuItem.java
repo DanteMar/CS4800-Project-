@@ -1,3 +1,4 @@
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,12 @@ public class MenuItem {
 	private int itemID;
 	private String name;
 	private double price;
+	
+	MenuItem(String name, double price)
+	{
+		this.name = name;
+		this.price = price;
+	}
 	public void newMenuItem(String name, double price)
 	{
 		this.name = name;
