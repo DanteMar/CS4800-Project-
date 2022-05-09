@@ -1,3 +1,4 @@
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -8,6 +9,12 @@ public class Food_Order {
 	
 	public Food_Order() 
 	{
+	}
+	public Food_Order(int menuItemID, int orderID, int quantity) 
+	{
+		menuitemID = menuItemID;
+		this.orderID = orderID;
+		this.quantity = quantity;
 	}
 	
 	public void newFoodOrder(int menuitemID, int orderID, int quantity)
