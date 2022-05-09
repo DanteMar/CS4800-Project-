@@ -1,0 +1,121 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import java.sql.Date;
+
+public class Customer {
+	private int broncoID;
+	private String first_name;
+	private String last_name;
+	private Date dob;
+	private int phone;
+	private double discount = 0;
+	
+	public Customer()
+	{
+	}
+	
+	public void newCustomer( int broncoID ,String first_name, String last_name, Date dob, int phone)
+	{
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO customer (broncoid, firstname, lastname, dob, phonenum, discount) VALUES (?, ?, ?, ?, ?, ?)");
+
+			stmt.setInt(1, broncoID);
+			stmt.setString(2, first_name);
+			stmt.setString(3, last_name);
+			stmt.setDate(4, dob);
+			stmt.setInt(5, phone);
+			stmt.setDouble(6, discount);
+			stmt.executeUpdate();
+			
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex);
+		}
+	}
+	public void updateCustomer(int broncoID, String first_name, String last_name, Date dob, int phone)
+	{
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			// create the java statement
+			
+			//Generate appropriate query
+			// all database values will change once database is setup
+			
+			PreparedStatement stmt = connection.prepareStatement("update customer set firstname = ?, lastname = ?, dob = ?, phonenum = ? where broncoid = ?");
+			stmt.setString(1, first_name);
+			stmt.setString(2, last_name);
+			stmt.setDate(3, dob);
+			stmt.setInt(4, phone);
+			stmt.setInt(5, broncoID);
+			
+			stmt.executeUpdate();
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex);
+		}
+	}
+	public void deleteCustomer(int broncoIDInput)
+	{
+		try
+		{
+			// all database values will change once database is setup
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("DELETE FROM customer WHERE broncoID = ?");
+			stmt.setInt(1, broncoIDInput);
+			stmt.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	public void getRevenue(Date d1, Date d2)
+	{
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			
+			PreparedStatement stmt = connection.prepareStatement(
+				"select sum(total) from aorder where aorder.date between ? and ?");
+			stmt.setDate(1, d1);
+			stmt.setDate(2, d2);
+			ResultSet rs = stmt.executeQuery();
+			System.out.println(rs.getInt("total"));
+			stmt.executeUpdate();
+			stmt.close();
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex);
+		}
+	}
+	public void getRevenue(Date d1, Date d2, int bid)
+	{
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			// create the java statement
+
+			//Generate appropriate query
+			// all database values will change once database is setup
+
+			PreparedStatement stmt = connection.prepareStatement(
+				"select sum(total) from aorder,customer where broncoid=bid AND aorder.date between ? and ?");
+			stmt.setInt(1, bid);
+			stmt.setDate(2, d1);
+			stmt.setDate(3, d2);
+			ResultSet rs = stmt.executeQuery();
+			System.out.println(rs.getInt("total"));
+			stmt.executeUpdate();
+			stmt.close();
+		}
+		catch (Exception ex)
+		{System.out.println(ex);}
+	}
+}
