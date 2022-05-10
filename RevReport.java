@@ -1,4 +1,4 @@
-
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -75,6 +75,21 @@ public class RevReport {
 			PreparedStatement stmt = connection.prepareStatement("select customer.broncoid, customer.firstname, customer.lastname, aorder.odate  FROM customer INNER JOIN aorder ON aorder.broncoid = customer.broncoid where odate between ? and ?");
 			stmt.setDate(1, d1);
         	stmt.setDate(2, d2);
+			ResultSet rs = stmt.executeQuery();
+			return rs;
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+    	return null;
+    }
+    public static ResultSet getRevenueSet(int broncoID) //returns a resultset of broncoid, fname, lastname, orderid and orderdate for a given broncoID
+    {
+    	try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("select customer.broncoid, customer.firstname, customer.lastname, aorder.odate, aorder.orderid  FROM customer INNER JOIN aorder ON aorder.broncoid = customer.broncoid where aorder.broncoid = ?");
+			stmt.setInt(1, broncoID);
 			ResultSet rs = stmt.executeQuery();
 			return rs;
 		}
