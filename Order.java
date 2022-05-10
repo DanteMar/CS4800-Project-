@@ -1,4 +1,4 @@
-package test;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,6 +52,18 @@ public class Order {
 			System.out.println(ex);
 		}
 		return id;
+	}
+	public int newOnlineOrder(Date date, Time time, int broncoID)//creates new order and sets status to online-pending
+	{
+		int orderidout = newOrder(date, time, broncoID);
+		setStatus("online-pending", orderidout);
+		return orderidout;
+	}
+	public int newCounterOrder(Date date, Time time, int broncoID)//creates new order and sets status to counter
+	{
+		int orderidout = newOrder(date, time, broncoID);
+		setStatus("counter", orderidout);
+		return orderidout;
 	}
 	public void updateOrder(int orderID, Date date, Time time, int broncoID)
 	{
@@ -119,6 +131,7 @@ public class Order {
 			
 			System.out.println(total);
 			setTotal(total, orderID);
+			applyDiscount(orderID);
 			
 		}
 		catch (Exception e) {
@@ -165,6 +178,20 @@ public class Order {
 			Connection connection = LoginDataAccess.verifyCredentials();
 			PreparedStatement stmt = connection.prepareStatement("update aorder set total = ? where orderid = ?");
 			stmt.setDouble(1, total);
+			stmt.setInt(2, orderID);
+			stmt.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	public void setStatus(String status, int orderID)
+	{
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("update aorder set status = ? where orderid = ?");
+			stmt.setString(1, status);
 			stmt.setInt(2, orderID);
 			stmt.executeUpdate();
 		}
