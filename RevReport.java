@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.Date;
 
 public class RevReport {
-    public static double getRevenue(Date d1, Date d2, int bid)
+    public static double getRevenue(Date d1, Date d2, int bid) // returns the total amount of money made from a certain broncoID between 2 dates
     {
         try
         {
@@ -30,7 +30,7 @@ public class RevReport {
         }
        
     }
-    public static double getRevenue(Date d1, Date d2)    
+    public static double getRevenue(Date d1, Date d2)    //returns the total amount of money made within 2 dates
     {
         try
         {
@@ -49,7 +49,7 @@ public class RevReport {
             return 0.0;
         }
     }  
-    public static double getRevenue(int broncoID)    
+    public static double getRevenue(int broncoID)    // returns the total amount of money made from a certain broncoID
     {
         try
         {
@@ -90,6 +90,38 @@ public class RevReport {
 			Connection connection = LoginDataAccess.verifyCredentials();
 			PreparedStatement stmt = connection.prepareStatement("select customer.broncoid, customer.firstname, customer.lastname, aorder.odate, aorder.orderid  FROM customer INNER JOIN aorder ON aorder.broncoid = customer.broncoid where aorder.broncoid = ?");
 			stmt.setInt(1, broncoID);
+			ResultSet rs = stmt.executeQuery();
+			return rs;
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+    	return null;
+    }
+    public static ResultSet getRevenueSet(int menuitemID, Date date1, Date date2) //returns a resultset of broncoid, quantity of menuitem, orderid and orderdate for a given menuID and 2 dates
+    {
+    	try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("select aorder.broncoid, aorder.odate, aorder.orderid, menuitem_order.quantity FROM menuitem_order INNER JOIN aorder ON aorder.orderid = menuitem_order.orderid where aorder.odate between ? and ? AND menuitem_order.menuitemid = ?");
+			stmt.setDate(1, date1);
+			stmt.setDate(2, date2);
+			stmt.setInt(3, menuitemID);
+			ResultSet rs = stmt.executeQuery();
+			return rs;
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+    	return null;
+    }
+    public static ResultSet getRevReport(int menuitemID) //returns a resultset of menuItemID, historicaldate, HistoricalPrice for a given menuItemID
+    {
+    	try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * from historicalprice where menuitemid = ?");
+			stmt.setInt(1, menuitemID);
 			ResultSet rs = stmt.executeQuery();
 			return rs;
 		}
