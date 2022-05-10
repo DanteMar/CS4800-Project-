@@ -1,4 +1,4 @@
-package test;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,5 +67,20 @@ public class RevReport {
             return 0.0;
         }
     }  
-
+    public static ResultSet getRevenueSet(Date d1, Date d2) //returns a resultset of broncoid, fname, lastname and orderdate between a 2 date range
+    {
+    	try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("select customer.broncoid, customer.firstname, customer.lastname, aorder.odate  FROM customer INNER JOIN aorder ON aorder.broncoid = customer.broncoid where odate between ? and ?");
+			stmt.setDate(1, d1);
+        	stmt.setDate(2, d2);
+			ResultSet rs = stmt.executeQuery();
+			return rs;
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+    	return null;
+    }
 }
