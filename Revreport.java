@@ -70,9 +70,10 @@ public class RevReport {
                 rs.getString("lastname"),rs.getDate("odate"),rs.getString("foodname"),rs.getInt("quantity"),rs.getDouble("total"));
                 if(rev.getoid!=oiid)
                 {
+		    oiid=rs.getInt("orderid");
                     t=t+rs.getDouble("total");
                 }
-                oiid=rs.getInt("orderid");
+                
             }
             revc.addtotalstotal(t);
             return revc;
