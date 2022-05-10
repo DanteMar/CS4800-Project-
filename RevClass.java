@@ -4,6 +4,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.Date;
+/*return report based on order number: 1. name 2. bronco id 3. food items 4. date 5. total price
+return based on bronco id: 1. name 2. bronco id 3. order number 4. date(s) 5. total price
+return based on date: 1. name(s) 2. date. bronco id(s) 4. total price
+^for revenue reports*/
 public class RevClass {
     
     ArrayList<String> fname;
@@ -13,33 +17,42 @@ public class RevClass {
     ArrayList<Date> odate;
     ArrayList<Integer> quantity;
     ArrayList<Double> hprice;
+    //total per order
     ArrayList<Double> total;
+    //sum of all total per order
+    double totalstotal;
     ArrayList<String> fn;
     ArrayList<String> ln;
-    public void setReportoid()
+    public void addReportdates(int od, int bd, String fin,String lin, Date d, String foodn, int qt, double t)
     {
-        //parsing rs.get() in here
-        bid=bconid;
-        fname=fn;
-        quantity=qt;
-        oid=orderid;
-        odate=od;
-        total=t;
+        bid.add(bd);
+        oid.add(od);
+        odate.add(d);
+        fn.add(fin);
+        ln.add(lin);
+        odate.add(d);
+        fname.add(foodn);
+        quantity.add(qt);
+        total.add(t);
     }
-    public void setReportbid()
+    public void addReportbid(String fin,String lin,int od, Date d, String foodn, int qt, double t)
     {
-        //parsing rs.get() in here
-     fname=fn;
-     bid=bconid;
-     oid=orderid;
-     odate=od;
-     quantity=qt;
-    }
-    public void setReportmid()
-    {
-        //parsing rs.get() in here
+    oid.add(od);
+    odate.add(d);
+    fn.add(fin);
+    ln.add(lin);
+    odate.add(d);
+    fname.add(foodn);
+    quantity.add(qt);
+    total.add(t);
 
     }
+    /*public void addReportmid()
+    {
+
+    }*/
+    public void addtotalstotal(double t)
+    {totalstotal=t;}
     public ArrayList<String> getfname()
     {return fname;} 
     public ArrayList<Integer> getbid()
