@@ -135,7 +135,7 @@ public class RevReport {
             while(rs.next())
             {
                 hdatecounter=0;
-                revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"));
+                revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"))
                 //
                 
                 ddumy1=new java.util.Date(revc.getodate().get(counter).getTime());
