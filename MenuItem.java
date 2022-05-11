@@ -28,6 +28,15 @@ public class MenuItem {
 			stmt.setDouble(2, price);
 			
 			stmt.executeUpdate();
+			
+			PreparedStatement stmt2 = connection.prepareStatement("SELECT menuitemid from menuitem WHERE foodname = ? AND price = ?");
+
+			stmt2.setString(1, name);
+			stmt2.setDouble(2, price);
+			
+			ResultSet rs = stmt2.executeQuery();
+			rs.next();
+			itemID=rs.getInt("menuitemid");
 		}
 		catch (Exception ex)
 		{
@@ -73,6 +82,8 @@ public class MenuItem {
 			stmt.setInt(3, itemID);
 			
 			stmt.executeUpdate();
+			this.name = name;
+			this.price = price;
 		}
 		catch (Exception ex)
 		{
@@ -99,7 +110,24 @@ public class MenuItem {
 		}
 	}
 	public int getID()
-	{
+	{	
+		if(itemID==0) {
+			try {
+				Connection connection = LoginDataAccess.verifyCredentials();
+				PreparedStatement stmt2 = connection.prepareStatement("SELECT menuitemid from menuitem WHERE foodname = ? AND price = ?");
+
+				stmt2.setString(1, name);
+				stmt2.setDouble(2, price);
+				
+				ResultSet rs = stmt2.executeQuery();
+				rs.next();
+				itemID=rs.getInt("menuitemid");
+				
+			}
+			catch(Exception e) {
+				System.out.println(e);
+			}
+		}
 		return itemID;
 	}
 	public String getName()
