@@ -89,4 +89,26 @@ public class RevReport {
 		}
     	return null;
     }
+   public static RevClass getHistoricalPrice(int menuitemID) 
+ {
+ 	try
+	{
+         RevClass revc;
+         double t=0.0;
+		Connection connection = LoginDataAccess.verifyCredentials();
+		PreparedStatement stmt = connection.prepareStatement("SELECT * from historicalprice where menuitemid = ?");
+		stmt.setInt(1, menuitemID);
+		ResultSet rs = stmt.executeQuery();
+         while(rs.next())
+         {
+             revc.addHptice(rs.getInt("priceid"),rs.getDate("hdate"),rs.getDouble("hprice"));
+ 	 }
+		stmt.close();
+		return revc;
+	}
+	catch (Exception e) {
+		System.out.println(e);
+	}
+ 	return null;
+ }
 }
