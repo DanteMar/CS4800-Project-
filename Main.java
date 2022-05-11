@@ -1,43 +1,36 @@
-import java.sql.Date;
 import java.util.*;
-import java. sql.Time;
-public class Main 
-{
-
-	public static void main(String[] args) 
-	{
-		
-		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		java.sql.Time time = new Time(System.currentTimeMillis());
-		
-		//Customer john = new Customer();
-		//john.newCustomer(01111,"elliot", "mar", date,0);
-		//john.updateCustomer(42765, "Grace", "Williams", date, 760);
-		//john.deleteCustomer(42765);
-		
-		//Order order = new Order();
-		//order.newOrder(date, time, 0123415);
-		//order.updateOrder(1, date, time, 01111);
-		//order.deleteOrder(4);
-		
-		//Professor john = new Professor();
-		//john.updateProfessor(42765, "science", "office 2", "chairs");
-		
-		//Student john = new Student();
-		//john.updateStudent(42765, date , date, "computer science", "none");
-		
-		//HistoricalPrice test = new HistoricalPrice();
-		//test.newHistoricalPrice(10.52, date, 1111);
-		
-		//MenuItem food = new MenuItem();
-		//food.newMenuItem("burger", 5);
-		//food.updateMenuItem(1, "fries", 5);
-		//food.deleteMenuItem(1);
-		
-		//Food_Order test = new Food_Order();
-		//test.newFoodOrder(2, 2, 3);
-		//test.deleteFoodOrder(2, 2);
-		
-	}
-
+import java.sql.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        System.out.println("Hello, World!");
+        System.out.println("successfully connected");
+        int mid=3;
+        int bi=11;
+        java.sql.Date d1= java.sql.Date.valueOf("2000-01-21");
+        java.sql.Date d2= java.sql.Date.valueOf("2008-01-24");
+        RevClass revt=new RevClass();
+        revt=RevReport.getRevenue(d1, d2,mid);
+        System.out.println("foodname,  bid, orderid,  odate,  quantity, hprice");
+        for(int i=0;i<revt.getoid().size() ;i++)
+        {   
+            System.out.println(revt.getfname().get(i)+revt.getoid().get(i)+revt.getodate().get(i)+revt.getquantity().get(i)+revt.gethprice().get(i));
+        }
+        System.out.println("Sum:"+revt.gettotalstotal());
+        /*System.out.println("firstname,  lastname,  orderid,  odate, foodname, quantity, total");
+        for(int i=0;i<revt.getoid().size() ;i++)
+        {
+            System.out.println(revt.getfn().get(i)+"  "+revt.getln().get(i)+"  "+revt.getoid().get(i)+revt.getodate().get(i)+revt.getfname().get(i)+revt.getquantity().get(i)+revt.gettotal().get(i));
+        }
+        System.out.println("Sum:"+revt.gettotalstotal());
+        */
+       /*revt=RevReport.getRevenue(d1, d2);
+        System.out.println("orderid,  broncoid,  firstname,  lastname, odate, foodname, quantity, total");
+        for(int i=0;i<revt.getoid().size() ;i++)
+        {
+            System.out.println(revt.getoid().get(i)+"  "+revt.getbid().get(i)+"  "+revt.getfn().get(i)+revt.getln().get(i)+revt.getodate().get(i)+revt.getfname().get(i)+revt.getquantity().get(i)+revt.gettotal().get(i));
+        }
+        System.out.println("Sum:"+revt.gettotalstotal());
+        */
+        
+    }
 }
