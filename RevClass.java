@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.sql.Date;
-
+/*return report based on order number: 1. name 2. bronco id 3. food items 4. date 5. total price
+return based on bronco id: 1. name 2. bronco id 3. order number 4. date(s) 5. total price
+return based on date: 1. name(s) 2. date. bronco id(s) 4. total price
+^for revenue reports*/
 public class RevClass {
     
     ArrayList<String> fname;
@@ -50,10 +53,16 @@ public class RevClass {
         hpriceid.add(priceid);
         hdate.add(d);
     }
-    /*public void addReportmid()
+    public void addReportmid(String foodn, int brid, int oiid, Date od, int quant)
     {
-
-    }*/
+        fname.add(foodn);
+        bid.add(brid);
+        oid.add(oiid);
+        odate.add(od);
+        quantity.add(quant);
+    }
+    public void addhpirce(Double d)
+    {hprice.add(d);}
     public void addtotalstotal(double t)
     {totalstotal=t;}
     public ArrayList<String> getfname()
