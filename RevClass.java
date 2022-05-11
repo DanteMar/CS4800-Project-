@@ -1,24 +1,23 @@
 import java.util.ArrayList;
 import java.sql.Date;
-
 public class RevClass {
     
-    ArrayList<String> fname;
-    ArrayList<Double> discount;
-    ArrayList<Integer> bid;
-    ArrayList<Integer> oid;
-    ArrayList<Date> odate;
-    ArrayList<Integer> quantity;
+    private ArrayList<String> fname;
+    private ArrayList<Double> discount;
+    private ArrayList<Integer> bid;
+    private ArrayList<Integer> oid;
+    private ArrayList<Date> odate;
+    private ArrayList<Integer> quantity;
     //total per order
-    ArrayList<Double> total;
+    private ArrayList<Double> total;
     //sum of all total per order
-    double totalstotal;
-    ArrayList<String> fn;
-    ArrayList<String> ln;
+    private double totalstotal;
+    private ArrayList<String> fn;
+    private ArrayList<String> ln;
     //for historicalprice
-    ArrayList<Double> hprice;
-    ArrayList<Integer> hpriceid;
-    ArrayList<Date> hdate;
+    private ArrayList<Double> hprice;
+    private ArrayList<Integer> hpriceid;
+    private ArrayList<Date> hdate;
     //functions
     public void addReportdates(int od, int bd, String fin,String lin, Date d, String foodn, int qt, double t)
     {
@@ -58,7 +57,7 @@ public class RevClass {
         odate.add(od);
         quantity.add(quant);
     }
-    public void addhpirce(Double d)
+    public void addhprice(Double d)
     {hprice.add(d);}
     public void addtotalstotal(double t)
     {totalstotal=t;}
