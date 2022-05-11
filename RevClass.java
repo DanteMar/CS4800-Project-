@@ -1,8 +1,4 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.sql.Connection;
 import java.sql.Date;
 /*return report based on order number: 1. name 2. bronco id 3. food items 4. date 5. total price
 return based on bronco id: 1. name 2. bronco id 3. order number 4. date(s) 5. total price
@@ -16,13 +12,17 @@ public class RevClass {
     ArrayList<Integer> oid;
     ArrayList<Date> odate;
     ArrayList<Integer> quantity;
-    ArrayList<Double> hprice;
     //total per order
     ArrayList<Double> total;
     //sum of all total per order
     double totalstotal;
     ArrayList<String> fn;
     ArrayList<String> ln;
+    //for historicalprice
+    ArrayList<Double> hprice;
+    ArrayList<Integer> hpriceid;
+    ArrayList<Date> hdate;
+    //functions
     public void addReportdates(int od, int bd, String fin,String lin, Date d, String foodn, int qt, double t)
     {
         bid.add(bd);
@@ -47,6 +47,12 @@ public class RevClass {
     total.add(t);
 
     }
+    public void addHptice(int priceid, Date d, double hp)
+    {
+        hprice.add(hp);
+        hpriceid.add(priceid);
+        hdate.add(d);
+    }
     /*public void addReportmid()
     {
 
@@ -63,13 +69,17 @@ public class RevClass {
     {return odate;}
     public ArrayList<Integer> getquantity()
     {return quantity;}
-    public ArrayList<Double> gethprice()
-    {return hprice;}
     public ArrayList<Double> gettotal()
     {return total;}
     public ArrayList<String> getfn()
     {return fn;}
     public ArrayList<String> getln()
     {return ln;}
+    public ArrayList<Double> gethprice()
+    {return hprice;}
+    public ArrayList<Integer> gethpriceid()
+    {return hpriceid;}
+    public ArrayList<Date> gethdate()
+    {return hdate;}
 
 }
