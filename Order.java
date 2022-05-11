@@ -46,6 +46,8 @@ public class Order {
 			ResultSet rs = stmt2.executeQuery();
 			rs.next();
 			id = rs.getInt("orderid");
+			
+			orderID=id;
 		}
 		catch (Exception ex)
 		{
@@ -225,6 +227,9 @@ public class Order {
 	}
 	public void setStatus(String s) {
 		status=s;
+	}
+	public int getorderID() {
+		return orderID;
 	}
 	
 	public Date getDate(int orderID) {
