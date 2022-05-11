@@ -121,7 +121,7 @@ public class RevReport {
            +"from  aorder as ao, menuitem as me, menuitem_order as mio " 
             +"where me.menuitemid in (select mio.menuitemid "
                                     + "where  mio.orderid = ao.orderid AND mio.menuitemid= ?  AND ao.odate between ? AND ?)"
-                                    +" order by ao.odate DESC;" );
+                                    +" order by ao.odate ASC;" );
             stmt.setInt(1, menuitid);
             stmt.setDate(2, d1);
             stmt.setDate(3,d2);
