@@ -40,6 +40,7 @@ public class RevReport {
             }
             revc.addtotalstotal(t);
 	    stmt.close();
+			rs.close();
             return revc;
         }
 	    catch (Exception e)
@@ -82,6 +83,7 @@ public class RevReport {
             }
             revc.addtotalstotal(t);
 	 stmt.close();
+									     rs.close();
             return revc;
 		}
 		catch (Exception e) {
@@ -104,6 +106,7 @@ public class RevReport {
              revc.addHptice(rs.getInt("priceid"),rs.getDate("hdate"),rs.getDouble("hprice"));
  	 }
 		stmt.close();
+		rs.close();
 		return revc;
 	}
 	catch (Exception e) {
@@ -111,4 +114,43 @@ public class RevReport {
 	}
  	return null;
  }
+	public static RevClass getRevenue(int menuitid, Date d1, Date d2)
+{
+    try
+    {
+        RevClass revc;
+        double t=0.0;
+        int counter=0;
+        Connection connection = LoginDataAccess.verifyCredential99(
+        PreparedStatement stmt = connection.prepareStatement("
+        stmt.setInt(1, menuitid);
+        stmt.setDate(2, d1);
+        stmt.setDate(3,d2);
+        ResultSet rs = stmt.executeQuery();
+        RevClass revcdum;
+        int hdatecounter;
+        while(rs.next())
+        {
+            hdatecounter=0;
+            revc.addReportmid(rs.getString("foodname")
+            //queryy date to compare
+            revcdum=getHistoricalPrice(menuitid);
+            
+            while((revcdum.gethdate().get(hdatecounter)!=null)&&(re
+            {
+                hdatecounter++;
+            }
+            revc.addhprice(revcdm.gethprice().get(hdatecounter++));
+            total=total+revc.gethprice.get(counter);
+            counter++;
+        }
+        revc.addtotalstotal(t);
+        stmt.close();
+        rs.close();
+        return revc;
+        }catch (Exception e) {
+    	System.out.println(e);
+    }
+    return null;
+}								     
 }
