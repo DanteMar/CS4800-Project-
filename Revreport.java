@@ -14,6 +14,7 @@ public class RevReport {
             RevClass revc;
             double t=0.0;
             int oiid=-1;
+	    int counter=0;
         	Connection connection = LoginDataAccess.verifyCredentials();
         	PreparedStatement stmt = connection.prepareStatement(
         		"select cu.firstname, cu.lastname, ao.orderid, ao.odate,  mi.foodname, mio.quantity, ao.total
@@ -24,19 +25,21 @@ public class RevReport {
                 order by ao.orderid, ao.odate, mi.foodname, mio.quantity;");
         	stmt.setDate(1, d1);
         	stmt.setDate(2, d2);
-            stmt.setInt(3, bid);
+                stmt.setInt(3, bid);
         	ResultSet rs = stmt.executeQuery();
         	while(rs.next())
             {
                 revc.addReportbid(rs.getString("firstname"),rs.getString("lastname"),rs.getInt("orderid"),
                                   rs.getDate("odate"),rs.getString("foodname"),rs.getInt("quantity"),rs.getDouble("total"));
-                if(rev.getoid!=oiid)
+                if(rev.getoid().get(counter)!=oiid)
                 {
                     oiid=rs.getInt("orderid");
                     t=t+rs.getDouble("total");
                 }
+		    counter++;
             }
             revc.addtotalstotal(t);
+	    stmt.close();
             return revc;
         }
 	    catch (Exception e)
@@ -63,19 +66,22 @@ public class RevReport {
             stmt.setDate(2,d2);
 			ResultSet rs = stmt.executeQuery();
             int oiid=-1;
+									     int counter++;
 			while(rs.next())
             {
                 
                 revc.addReportdates(rs.getInt("orderid"),rs.getInt("broncoid"),rs.getString("firstname"),
                 rs.getString("lastname"),rs.getDate("odate"),rs.getString("foodname"),rs.getInt("quantity"),rs.getDouble("total"));
-                if(rev.getoid!=oiid)
+                if(rev.getoid().get(counter)!=oiid)
                 {
 		    oiid=rs.getInt("orderid");
                     t=t+rs.getDouble("total");
                 }
+		 counter++;
                 
             }
             revc.addtotalstotal(t);
+	 stmt.close();
             return revc;
 		}
 		catch (Exception e) {
