@@ -26,6 +26,7 @@ public class RevClass {
     	fname = new ArrayList<String>();
     	discount = new ArrayList<Double>();
     	bid = new ArrayList<Integer>();
+    	oid = new ArrayList<Integer>();
     	odate = new ArrayList<Date>();
     	quantity = new ArrayList<Integer>();
     	total = new ArrayList<Double>();
