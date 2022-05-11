@@ -17,8 +17,8 @@ public class RevReport {
 	        int counter=0;
         	Connection connection = DBconnecter.getConnection();
         	PreparedStatement stmt = connection.prepareStatement("select cu.firstname, cu.lastname, ao.orderid, ao.odate,  mi.foodname, mio.quantity, ao.total from aorder as ao, menuitem_order as mio, menuitem as mi, customer as cu where cu.broncoid in (select ao.broncoid where ao.odate between ? AND ? AND ao.broncoid = ? AND ao.orderid in (select mio.orderid " 
-                                                                                                            +"where mio.menuitemid =mi.menuitemid ))"	   
-                                                                 +"order by ao.orderid, ao.odate, mi.foodname, mio.quantity;");
+                                                                                                            +" where mio.menuitemid =mi.menuitemid ))"	   
+                                                                 +" order by ao.orderid, ao.odate, mi.foodname, mio.quantity;");
         	stmt.setDate(1, d1);
         	stmt.setDate(2, d2);
             stmt.setInt(3, bid);
@@ -91,15 +91,14 @@ public class RevReport {
  	try
 	{
         RevClass revc=new RevClass();
-         double t=0.0;
 		Connection connection = DBconnecter.getConnection();
-		PreparedStatement stmt = connection.prepareStatement("SELECT * from historicalprice where menuitemid = ?");
+		PreparedStatement stmt = connection.prepareStatement("SELECT * from historicalprice where menuitemid = ? order by hdate;");
 		stmt.setInt(1, menuitemID);
 		ResultSet rs = stmt.executeQuery();
-         while(rs.next())
-         {
-             revc.addHptice(rs.getInt("priceid"),rs.getDate("hdate"),rs.getDouble("hprice"));
- 	 }
+        while(rs.next())
+        {
+            revc.addHptice(rs.getInt("priceid"),rs.getDate("hdate"),rs.getDouble("hprice"));
+ 	    }
 		stmt.close();
 		rs.close();
 		return revc;
@@ -118,12 +117,17 @@ public class RevReport {
             double total=0.0;
             int counter=0;
             Connection connection = DBconnecter.getConnection();
-            PreparedStatement stmt = connection.prepareStatement("select me.foodname, ao.broncoid, ao.orderid, ao.odate, mio.quantity from  aorder as ao, menuitem as me, menuitem_order as mio where me.menuitemid in (select mio.menuitemid where  mio.orderid = ao.orderid AND mio.menuitemid= ? AND ao.odate between ? AND ? order by ao.odate DESC; ");
+            PreparedStatement stmt = connection.prepareStatement("select me.foodname, ao.broncoid, ao.orderid, ao.odate, mio.quantity "
+           +"from  aorder as ao, menuitem as me, menuitem_order as mio " 
+            +"where me.menuitemid in (select mio.menuitemid "
+                                    + "where  mio.orderid = ao.orderid AND mio.menuitemid= ?  AND ao.odate between ? AND ?)"
+                                    +" order by ao.odate DESC;" );
             stmt.setInt(1, menuitid);
             stmt.setDate(2, d1);
             stmt.setDate(3,d2);
             ResultSet rs = stmt.executeQuery();
-            RevClass revcdum=new RevClass();;
+            RevClass revcdum=new RevClass();
+            revcdum=getHistoricalPrice(menuitid);
             int hdatecounter;
             int bronid=0;
             java.util.Date ddumy1;
@@ -132,16 +136,20 @@ public class RevReport {
             {
                 hdatecounter=0;
                 revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"));
-                //queryy date to compare
-                revcdum=getHistoricalPrice(menuitid);
+                //
+                
                 ddumy1=new java.util.Date(revc.getodate().get(counter).getTime());
                 ddumy2=new  java.util.Date(revcdum.gethdate().get(hdatecounter).getTime());
-                while((revcdum.gethdate().get(hdatecounter)!=null)&&(ddumy1.after(ddumy2)));
+                while(hdatecounter<(revcdum.gethdate().size())&&(ddumy2.compareTo(ddumy1)<=0));
                 {
-                    hdatecounter++;
                     ddumy2=new  java.util.Date(revcdum.gethdate().get(hdatecounter).getTime());
+                    hdatecounter++;
                 }
-                revc.addhprice(revcdum.gethprice().get(hdatecounter++));
+                if(hdatecounter>=revcdum.gethdate().size())
+                {
+                    hdatecounter=hdatecounter-1;
+                }
+                revc.addhprice(revcdum.gethprice().get(hdatecounter));
                 total=total+revc.gethprice().get(counter)*revc.getquantity().get(counter);
                 counter++;
             }
