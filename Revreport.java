@@ -92,7 +92,7 @@ public class RevReport {
 	{
         RevClass revc=new RevClass();
 		Connection connection = DBconnecter.getConnection();
-		PreparedStatement stmt = connection.prepareStatement("SELECT * from historicalprice where menuitemid = ? order by hdate;");
+		PreparedStatement stmt = connection.prepareStatement("SELECT * from historicalprice where menuitemid = ? order by hdate ASC;");
 		stmt.setInt(1, menuitemID);
 		ResultSet rs = stmt.executeQuery();
         while(rs.next())
@@ -128,27 +128,29 @@ public class RevReport {
             ResultSet rs = stmt.executeQuery();
             RevClass revcdum=new RevClass();
             revcdum=getHistoricalPrice(menuitid);
-            int hdatecounter;
-            int bronid=0;
+            int hdatecounter=0;//
             java.util.Date ddumy1;
             java.util.Date ddumy2;
             while(rs.next())
             {
-                hdatecounter=0;
-                revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"))
-                //
-                
-                ddumy1=new java.util.Date(revc.getodate().get(counter).getTime());
-                ddumy2=new  java.util.Date(revcdum.gethdate().get(hdatecounter).getTime());
-                while(hdatecounter<(revcdum.gethdate().size())&&(ddumy2.compareTo(ddumy1)<=0));
+                //hdatecounter=0;
+                revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"));
+                ddumy1=new java.util.Date(revc.getodate().get(counter).getTime());//odate
+                ddumy2=new  java.util.Date(revcdum.gethdate().get(hdatecounter).getTime());//hdate
+                while((hdatecounter<revcdum.gethdate().size()) && (ddumy2.compareTo(ddumy1)<0))
                 {
-                    ddumy2=new  java.util.Date(revcdum.gethdate().get(hdatecounter).getTime());
                     hdatecounter++;
+                    if(hdatecounter<revcdum.gethdate().size())
+                     ddumy2=new  java.util.Date(revcdum.gethdate().get(hdatecounter).getTime());
+                    
                 }
-                if(hdatecounter>=revcdum.gethdate().size())
+                if(ddumy2.compareTo(ddumy1)>0 || hdatecounter>=revcdum.gethdate().size())
                 {
                     hdatecounter=hdatecounter-1;
                 }
+                //incase which would normally not happend, only happened due to bad data
+                if(hdatecounter<0)
+                    hdatecounter++;
                 revc.addhprice(revcdum.gethprice().get(hdatecounter));
                 total=total+revc.gethprice().get(counter)*revc.getquantity().get(counter);
                 counter++;
