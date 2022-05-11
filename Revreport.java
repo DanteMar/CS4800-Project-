@@ -135,7 +135,7 @@ public class RevReport {
                 hdatecounter=0;
                 revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"));
                 //queryy date to compare
-                ddumy1=new java.sql.Date(revc.getodate().get(counter).getTime());
+                ddumy1=new java.util.Date(revc.getodate().get(counter).getTime());
                 ddumy2=new  java.util.Date(revcdum.gethdate().get(hdatecounter).getTime());
                 while((revcdum.gethdate().get(hdatecounter)!=null)&&(ddumy1.after(ddumy2)));
                 {
