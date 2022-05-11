@@ -46,6 +46,12 @@ public class Customer {
 			stmt.setDouble(6, discount);
 			stmt.executeUpdate();
 			
+			this.broncoID = broncoID;
+			this.first_name = first_name;
+			this.last_name = last_name;
+			this.dob = dob;
+			this.phone = phone;
+			
 		}
 		catch (Exception ex)
 		{
@@ -109,5 +115,21 @@ public class Customer {
 	public int getphone()
 	{
 		return phone;
+	}
+	public double getDiscount() {
+		try
+		{
+			Connection connection = LoginDataAccess.verifyCredentials();
+			PreparedStatement stmt = connection.prepareStatement("SELECT discount from customer WHERE broncoid = ?");
+			stmt.setInt(1, broncoID);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			discount = rs.getDouble("discount");
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return discount;
 	}
 }
