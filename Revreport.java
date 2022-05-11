@@ -165,8 +165,8 @@ public class RevReport {
                 revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"));
                 //queryy date to compare
                 revcdum=getHistoricalPrice(menuitid);
-                if(rs.get)
-                {
+                //if(rs.get)
+                //{
                     while((revcdum.gethdate().get(hdatecounter)!=null)&&(revc.getodate().get(counter).getTime()>=revcdum.gethdate().get(hdatecounter).getTime()));
                     {
                         hdatecounter++;
@@ -174,7 +174,7 @@ public class RevReport {
                     revc.addhprice(revcdm.gethprice().get(hdatecounter++));
                     total=total+revc.gethprice.get(counter);
                     counter++;
-                }
+                //}
             }
             revc.addtotalstotal(t);
             stmt.close();
