@@ -172,7 +172,7 @@ public class RevReport {
                         hdatecounter++;
                     }
                     revc.addhprice(revcdm.gethprice().get(hdatecounter++));
-                    total=total+revc.gethprice.get(counter);
+                    total=total+revc.gethprice.get(counter)*revc.getquantity().get(counter);
                     counter++;
                 //}
             }
