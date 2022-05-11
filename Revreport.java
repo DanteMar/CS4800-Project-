@@ -1,3 +1,4 @@
+package test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,17 +8,17 @@ import java.sql.Connection;
 import java.util.Date;
 
 public class RevReport {    
-    public static Revclass getRevenue(java.sql.Date d1, java.sql.Date d2, int bid) // returns the total amount of money made from a certain broncoID between 2 dates
+    public static RevClass getRevenue(java.sql.Date d1, java.sql.Date d2, int bid) // returns the total amount of money made from a certain broncoID between 2 dates
     {
         try
         {
-            RevClass revc;
+            RevClass revc = new RevClass();
             double t=0.0;
             int oiid=-1;
 	    int counter=0;
         	Connection connection = LoginDataAccess.verifyCredentials();
-        	PreparedStatement stmt = connection.prepareStatement("select cu.firstname, cu.lastname, ao.orderid, ao.odate,  mi.foodname, mio.quantity, ao.total from aorder as ao, menuitem_order as mio, menuitem as mi, customer as cu where cu.broncoid in (select ao.broncoid where ao.odate between ? AND ? AND ao.broncoid = ? AND ao.orderid in (select mio.orderid" 
-                                                                                                            +"where mio.menuitemid =mi.menuitemid ))"	   
+        	PreparedStatement stmt = connection.prepareStatement("select cu.firstname, cu.lastname, ao.orderid, ao.odate,  mi.foodname, mio.quantity, ao.total from aorder as ao, menuitem_order as mio, menuitem as mi, customer as cu where cu.broncoid in (select ao.broncoid where ao.odate between ? AND ? AND ao.broncoid = ? AND ao.orderid in (select mio.orderid " 
+                                                                                                            +"where mio.menuitemid = mi.menuitemid ))"	   
                                                                  +"order by ao.orderid, ao.odate, mi.foodname, mio.quantity;");
         	stmt.setDate(1, d1);
         	stmt.setDate(2, d2);
@@ -51,13 +52,13 @@ public class RevReport {
     {
     	try
 		{
-            RevClass revc;
+    		RevClass revc = new RevClass();
             double t=0.0;
 			Connection connection = LoginDataAccess.verifyCredentials();
-			PreparedStatement stmt = connection.prepareStatement("Select ao.orderid, cu.broncoid,cu.firstname, cu.lastname, ao.odate,  mi.foodname, mio.quantity, ao.total"+
+			PreparedStatement stmt = connection.prepareStatement("Select ao.orderid, cu.broncoid, cu.firstname, cu.lastname, ao.odate,  mi.foodname, mio.quantity, ao.total "+
                                                                 "From aorder as ao, menuitem_order as mio, menuitem as mi, customer as cu"+
-                                                                "Where ao.odate between ? AND ? AND ao.broncoid= cu.broncoid AND ao.orderid in (select mio.orderid"+ 
-                                                                                                                                                "where mio.menuitemid =mi.menuitemid )"+
+                                                                " WHERE ao.odate between ? AND ? AND ao.broncoid = cu.broncoid AND ao.orderid in (select mio.orderid "+ 
+                                                                                                                                                "where mio.menuitemid = mi.menuitemid )"+
                                                                 "Order by ao.orderid, ao.odate, mi.foodname, mio.quantity;");
 			stmt.setDate(1,d1);
             stmt.setDate(2,d2);
@@ -78,8 +79,8 @@ public class RevReport {
                 
             }
             revc.addtotalstotal(t);
-	 stmt.close();
-									     rs.close();
+            stmt.close();
+	 	rs.close();
             return revc;
 		}
 		catch (Exception e) {
@@ -91,16 +92,16 @@ public class RevReport {
  {
  	try
 	{
-         RevClass revc;
-         double t=0.0;
+ 		RevClass revc = new RevClass();
 		Connection connection = LoginDataAccess.verifyCredentials();
 		PreparedStatement stmt = connection.prepareStatement("SELECT * from historicalprice where menuitemid = ?");
 		stmt.setInt(1, menuitemID);
 		ResultSet rs = stmt.executeQuery();
          while(rs.next())
          {
-             revc.addHptice(rs.getInt("priceid"),rs.getDate("hdate"),rs.getDouble("hprice"));
- 	 }
+        	 System.out.println(rs.getInt("priceid"));
+             revc.addHptice(rs.getInt("priceid"), rs.getDate("hdate"), rs.getDouble("hprice"));
+         }
 		stmt.close();
 		rs.close();
 		return revc;
@@ -115,11 +116,11 @@ public class RevReport {
     {
         try
         {
-            RevClass revc;
+        	RevClass revc = new RevClass();
             double total=0.0;
             int counter=0;
-            Connection connection = LoginDataAccess.verifyCredential99();
-            PreparedStatement stmt = connection.prepareStatement("select me.foodname, ao.broncoid, ao.orderid, ao.odate, mio.quantity from  aorder as ao, menuitem as me, menuitem_order as mio where me.menuitemid in (select mio.menuitemid where  mio.orderid = ao.orderid AND mio.menuitemid= ? AND ao.odate between ? AND ? order by ao.odate DESC; ");
+            Connection connection = LoginDataAccess.verifyCredentials();
+            PreparedStatement stmt = connection.prepareStatement("select me.foodname, ao.broncoid, ao.orderid, ao.odate, mio.quantity from  aorder as ao, menuitem as me, menuitem_order as mio where me.menuitemid in (select mio.menuitemid where  mio.orderid = ao.orderid AND mio.menuitemid= ? AND ao.odate between ? AND ? order by ao.odate DESC) ");
             stmt.setInt(1, menuitid);
             stmt.setDate(2, d1);
             stmt.setDate(3,d2);
