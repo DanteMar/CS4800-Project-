@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.sql.Date;
-/*return report based on order number: 1. name 2. bronco id 3. food items 4. date 5. total price
-return based on bronco id: 1. name 2. bronco id 3. order number 4. date(s) 5. total price
-return based on date: 1. name(s) 2. date. bronco id(s) 4. total price
-^for revenue reports*/
+
 public class RevClass {
     
     ArrayList<String> fname;
