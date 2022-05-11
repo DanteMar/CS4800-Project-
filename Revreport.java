@@ -114,43 +114,77 @@ public class RevReport {
 	}
  	return null;
  }
-	public static RevClass getRevenue(int menuitid, Date d1, Date d2)
-{
-    try
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+    public static RevClass getRevenue(int menuitid, Date d1, Date d2)
     {
-        RevClass revc;
-        double t=0.0;
-        int counter=0;
-        Connection connection = LoginDataAccess.verifyCredential99(
-        PreparedStatement stmt = connection.prepareStatement("
-        stmt.setInt(1, menuitid);
-        stmt.setDate(2, d1);
-        stmt.setDate(3,d2);
-        ResultSet rs = stmt.executeQuery();
-        RevClass revcdum;
-        int hdatecounter;
-        while(rs.next())
+        try
         {
-            hdatecounter=0;
-            revc.addReportmid(rs.getString("foodname")
-            //queryy date to compare
-            revcdum=getHistoricalPrice(menuitid);
-            
-            while((revcdum.gethdate().get(hdatecounter)!=null)&&(re
+            RevClass revc;
+            double t=0.0;
+            int counter=0;
+            Connection connection = LoginDataAccess.verifyCredential99();
+            PreparedStatement stmt = connection.prepareStatement("select me.foodname, ao.broncoid, ao.orderid, ao.odate, mio.quantity from  aorder as ao, menuitem as me, menuitem_order as mio where me.menuitemid in (select mio.menuitemid where  mio.orderid = ao.orderid AND mio.menuitemid= ? AND ao.odate between ? AND ? order by ao.odate DESC; ");
+            stmt.setInt(1, menuitid);
+            stmt.setDate(2, d1);
+            stmt.setDate(3,d2);
+            ResultSet rs = stmt.executeQuery();
+            RevClass revcdum;
+            int hdatecounter;
+            int bronid=0;
+            while(rs.next())
             {
-                hdatecounter++;
+                hdatecounter=0;
+                revc.addReportmid(rs.getString("foodname"), rs.getInt("broncoid"), rs.getInt("orderid"), rs.getDate("odate"), rs.getInt("quantity"));
+                //queryy date to compare
+                revcdum=getHistoricalPrice(menuitid);
+                if(rs.get)
+                {
+                    while((revcdum.gethdate().get(hdatecounter)!=null)&&(revc.getodate().get(counter).getTime()>=revcdum.gethdate().get(hdatecounter).getTime()));
+                    {
+                        hdatecounter++;
+                    }
+                    revc.addhprice(revcdm.gethprice().get(hdatecounter++));
+                    total=total+revc.gethprice.get(counter);
+                    counter++;
+                }
             }
-            revc.addhprice(revcdm.gethprice().get(hdatecounter++));
-            total=total+revc.gethprice.get(counter);
-            counter++;
+            revc.addtotalstotal(t);
+            stmt.close();
+            rs.close();
+            return revc;
+            }catch (Exception e) {
+        	System.out.println(e);
         }
-        revc.addtotalstotal(t);
-        stmt.close();
-        rs.close();
-        return revc;
-        }catch (Exception e) {
-    	System.out.println(e);
+        return null;
     }
-    return null;
-}								     
+
+    
 }
