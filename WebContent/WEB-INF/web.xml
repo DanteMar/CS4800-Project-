@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<display-name>OrderView</display-name>
+    <welcome-file-list>
+    <welcome-file>/OrderWelcomeView.jsp</welcome-file>
+  </welcome-file-list>
+	<servlet>
+		<servlet-name>OrderController</servlet-name>
+		<servlet-class>control.OrderController</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>OrderCompiler</servlet-name>
+		<servlet-class>control.OrderCompiler</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>OrderFinalizer</servlet-name>
+		<servlet-class>control.OrderFinalizer</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>OrderFinale</servlet-name>
+		<servlet-class>control.OrderFinale</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	<servlet-name>OrderController</servlet-name>
+	<url-pattern>/setup</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+	<servlet-name>OrderCompiler</servlet-name>
+	<url-pattern>/add</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+	<servlet-name>OrderController</servlet-name>
+	<url-pattern>/checkout</url-pattern>
+	</servlet-mapping>
+	
+
+	<servlet-mapping>
+	<servlet-name>OrderFinalizer</servlet-name>
+	<url-pattern>/final</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+	<servlet-name>OrderFinale</servlet-name>
+	<url-pattern>/finale</url-pattern>
+	</servlet-mapping>
+	
+	
+
+</web-app>
