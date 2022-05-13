@@ -1,13 +1,13 @@
-package test;
-
 import java.util.ArrayList;
 import java.sql.Date;
+
 public class RevClass {
     
     private ArrayList<String> fname;
     private ArrayList<Double> discount;
     private ArrayList<Integer> bid;
     private ArrayList<Integer> oid;
+    private ArrayList<Integer> mid;
     private ArrayList<Date> odate;
     private ArrayList<Integer> quantity;
     //total per order
@@ -21,20 +21,22 @@ public class RevClass {
     private ArrayList<Integer> hpriceid;
     private ArrayList<Date> hdate;
     //functions
-    RevClass()
+    public RevClass()
     {
-    	fname = new ArrayList<String>();
-    	discount = new ArrayList<Double>();
-    	bid = new ArrayList<Integer>();
-    	oid = new ArrayList<Integer>();
-    	odate = new ArrayList<Date>();
-    	quantity = new ArrayList<Integer>();
-    	total = new ArrayList<Double>();
-    	fn = new ArrayList<String>();
-    	ln = new ArrayList<String>();
-    	hprice = new ArrayList<Double>();
-    	hpriceid = new ArrayList<Integer>();
-    	hdate = new ArrayList<Date>();
+        fname=new ArrayList<String>();
+        discount=new ArrayList<Double>();
+        bid=new ArrayList<Integer>();
+        oid= new ArrayList<Integer>();
+        odate=new ArrayList<Date>();
+        quantity= new ArrayList<Integer>();
+        total=new ArrayList<Double>();
+        totalstotal=0;
+        fn=new ArrayList<String>();
+        ln=new ArrayList<String>();
+        hprice=new ArrayList<Double>();
+        hpriceid=new ArrayList<Integer>();
+        hdate=new ArrayList<Date>();
+
     }
     public void addReportdates(int od, int bd, String fin,String lin, Date d, String foodn, int qt, double t)
     {
@@ -78,6 +80,9 @@ public class RevClass {
     {hprice.add(d);}
     public void addtotalstotal(double t)
     {totalstotal=t;}
+    //getters
+    public double gettotalstotal()
+    {return totalstotal;}
     public ArrayList<String> getfname()
     {return fname;} 
     public ArrayList<Integer> getbid()
