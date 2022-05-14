@@ -1,8 +1,0 @@
-insert into customer(broncoid,firstname,lastname,dob,phonenum,discount)
-values(11,'za','la','10-01-1500',987654321,0);
-insert into customer(broncoid,firstname,lastname,dob,phonenum,discount)
-values(12,'Da','Te','10-02-1600',987655321,0.2);
-insert into customer(broncoid,firstname,lastname,dob,phonenum,discount)
-values(13,'Ma','Xm','10-03-1700',987653321,0);
-insert into customer(broncoid,firstname,lastname,dob,phonenum,discount)
-values(14,'IS','sh','10-04-1800',987652321,0.1);
