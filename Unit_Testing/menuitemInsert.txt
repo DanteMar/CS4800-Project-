@@ -1,0 +1,6 @@
+insert into menuitem(menuitemid,foodname,price)
+values(1,'oatmeal',1.5);
+insert into menuitem(menuitemid,foodname,price)
+values(2,'cheese',2.5);
+insert into menuitem(menuitemid,foodname,price)
+values(3,'sardines',2.0);
