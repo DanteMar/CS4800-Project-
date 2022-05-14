@@ -1,23 +1,46 @@
-package test;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+
+@Entity
+@Table(name = "historicalprice")
 public class HistoricalPrice {
-	private int priceID;
-	private double price;
-	private Date d;
-	private int menuitemID;
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name = "priceid")
+	private int priceid;
+
+	@Column (name = "menuitemid")
+	private int menuitemid;
+
+	@Column (name = "hdate")
+	private Date hdate;
+
+	@Column (name = "hprice")
+	private double hprice;
+
+
 	HistoricalPrice()
 	{
-		
+
 	}
 	HistoricalPrice(double price, Date d, int menuitemID)
 	{
-		this.price = price;
-		this.d = d;
-		this.menuitemID = menuitemID;
+
+		this.hprice = price;
+		this.hdate = d;
+		this.menuitemid = menuitemID;
 	}
 	public void newHistoricalPrice(double price, Date d, int menuitemid)
 	{
@@ -29,7 +52,7 @@ public class HistoricalPrice {
 			stmt.setDouble(1, price);
 			stmt.setDate(2, d);
 			stmt.setInt(3, menuitemid);
-			
+
 			stmt.executeUpdate();
 		}
 		catch (Exception ex)
@@ -53,14 +76,26 @@ public class HistoricalPrice {
 	}
 	public int getID()
 	{
-		return priceID;
+		return priceid;
 	}
 	public Date getDate()
 	{
-		return d;
+		return hdate;
 	}
 	public double getPrice()
 	{
-		return price;
+		return hprice;
+	}
+	public void setID(int id)
+	{
+		priceid = id;
+	}
+	public void setDate(Date d)
+	{
+		hdate = d;
+	}
+	public void setPrice(double p)
+	{
+		hprice = p;
 	}
 }
