@@ -64,9 +64,15 @@ public class MenuItem {
 		if (this.price != price)
 		{
 			// create a new historical price
-			HistoricalPrice hprice = new HistoricalPrice();
+			CreateHistoricalPrice hprice = new CreateHistoricalPrice();
+
+			//hibernate way
 			java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-			hprice.newHistoricalPrice(this.price, date, itemID);
+			hprice.CreateHistoricalP(this.price, date, itemID);
+
+			//jbdc way
+			//HistoricalPrice hprice = new HistoricalPrice();
+			//hprice.newHistoricalPrice(this.price, date, itemID);
 		}
 		try
 		{
