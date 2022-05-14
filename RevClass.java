@@ -4,10 +4,10 @@ import java.sql.Date;
 public class RevClass {
     
     private ArrayList<String> fname;
-    private ArrayList<Double> discount;
+    private double discount;
+    private ArrayList<Double> mdiscount;
     private ArrayList<Integer> bid;
     private ArrayList<Integer> oid;
-    private ArrayList<Integer> mid;
     private ArrayList<Date> odate;
     private ArrayList<Integer> quantity;
     //total per order
@@ -24,7 +24,8 @@ public class RevClass {
     public RevClass()
     {
         fname=new ArrayList<String>();
-        discount=new ArrayList<Double>();
+        discount=0.0;
+        mdiscount=new ArrayList<Double>();
         bid=new ArrayList<Integer>();
         oid= new ArrayList<Integer>();
         odate=new ArrayList<Date>();
@@ -42,7 +43,6 @@ public class RevClass {
     {
         bid.add(bd);
         oid.add(od);
-        odate.add(d);
         fn.add(fin);
         ln.add(lin);
         odate.add(d);
@@ -50,17 +50,16 @@ public class RevClass {
         quantity.add(qt);
         total.add(t);
     }
-    public void addReportbid(String fin,String lin,int od, Date d, String foodn, int qt, double t)
+    public void addReportbid(String fin,String lin,int od, Date d, String foodn, int qt, double dis, double t)
     {
     oid.add(od);
     odate.add(d);
     fn.add(fin);
     ln.add(lin);
-    odate.add(d);
     fname.add(foodn);
     quantity.add(qt);
     total.add(t);
-
+    discount=dis;
     }
     public void addHptice(int priceid, Date d, double hp)
     {
@@ -68,18 +67,23 @@ public class RevClass {
         hpriceid.add(priceid);
         hdate.add(d);
     }
-    public void addReportmid(String foodn, int brid, int oiid, Date od, int quant)
+    public void addReportmid(String foodn, int brid, int oiid, Date od, int quant,double discount)
     {
         fname.add(foodn);
         bid.add(brid);
         oid.add(oiid);
         odate.add(od);
         quantity.add(quant);
+        mdiscount.add(discount);
     }
     public void addhprice(Double d)
     {hprice.add(d);}
     public void addtotalstotal(double t)
     {totalstotal=t;}
+    public void addtotal(double t)
+    {
+        total.add(t);
+    }
     //getters
     public double gettotalstotal()
     {return totalstotal;}
@@ -105,5 +109,8 @@ public class RevClass {
     {return hpriceid;}
     public ArrayList<Date> gethdate()
     {return hdate;}
-
+    public double getdiscount()
+    {return discount;}
+    public ArrayList<Double> getmdiscount()
+    {return mdiscount;}
 }
